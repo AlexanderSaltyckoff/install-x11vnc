@@ -1,0 +1,6 @@
+
+[test]
+BrestTest ansible_host=10.1.5.67 ansible_user=shareadmin
+
+
+

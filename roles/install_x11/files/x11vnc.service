@@ -1,0 +1,10 @@
+[Unit]
+Description=x11vnc
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/x11vnc -env FD_KDM=1 -auth guess -listen 127.0.0.1 -noipv6 -rfbport 5900 -rfbauth /etc/x11vnc.pass -notruecolor -ultrafilexfer -shared -dontdisconnect -many -noxrecord -noxfixes -noxdamage -nodpms -loop -o /var/log/x11vnc.log
+
+[Install]
+WantedBy=multi-user.target

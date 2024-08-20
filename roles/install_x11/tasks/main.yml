@@ -1,0 +1,36 @@
+---
+# tasks file for install_x11
+- name: Update apt
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+
+- name: Install x11vnc packages
+  apt:
+    name:
+      - x11vnc
+    state: latest
+
+- name: Create file
+  ansible.builtin.shell:
+    cmd: touch /etc/x11vnc.pass
+
+- name: Create and write password
+  ansible.builtin.shell:
+    cmd: x11vnc -storepasswd 12345678 /etc/x11vnc.pass
+
+- name: add systemd service
+  ansible.builtin.template:
+    src: files/x11vnc.service
+    dest: /etc/systemd/system/x11vnc.service
+
+#    - name: Test hosts list
+#      debug:
+#        msg: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+
+- name: Change listen ip
+  ansible.builtin.replace:
+    dest: /etc/systemd/system/x11vnc.service
+    regexp: '-listen 127.0.0.1'
+    replace: "-listen {{ ansible_ssh_host }}"

@@ -1,0 +1,13 @@
+---
+# handlers file for install_x11
+- name: Restart x11vnc.service, also issue daemon-reload to pick up config changes
+  ansible.builtin.systemd_service:
+    state: restarted
+    daemon_reload: true
+    name: x11vnc.service
+
+- name: Enable service and ensure it is not masked
+  ansible.builtin.systemd_service:
+    name: x11vnc.service
+    enabled: true
+    masked: no
